@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__laravel-boost__application-info",
+      "WebFetch(domain:www.barclays.lk)",
+      "Bash(composer:*)",
+      "Bash(php artisan vendor:publish:*)",
+      "Bash(php artisan make:model:*)",
+      "Bash(php artisan:*)",
+      "mcp__laravel-boost__database-schema",
+      "Bash(find:*)",
+      "Bash(vendor/bin/pint:*)",
+      "mcp__laravel-boost__tinker",
+      "mcp__laravel-boost__database-query",
+      "Read(\\/**)",
+      "WebFetch(domain:127.0.0.1)",
+      "mcp__laravel-boost__read-log-entries",
+      "mcp__laravel-boost__list-routes",
+      "Bash(grep:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(rm:*)",
+      "Bash(curl:*)",
+      "mcp__laravel-boost__get-absolute-url",
+      "Bash(time curl:*)",
+      "mcp__laravel-boost__browser-logs",
+      "mcp__laravel-boost__search-docs",
+      "mcp__laravel-boost__get-config",
+      "mcp__laravel-boost__database-connections",
+      "mcp__laravel-boost__last-error"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "laravel-boost"
+  ]
+}
