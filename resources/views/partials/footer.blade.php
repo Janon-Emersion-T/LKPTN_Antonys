@@ -11,18 +11,18 @@
                 <div class="mb-6">
                     <div class="flex items-center space-x-4 mb-4">
                         <img src="{{ asset('images/logo.png')}}" 
-                            alt="{{ env('GLOBALS_COMPANY_NAME') }}" 
+                            alt="{{ config('globals.company.name') }}" 
                             class="h-16 w-auto">
                         <div>
                             <h2 class="text-xl font-bold text-white leading-tight">
-                                {{ env('GLOBALS_COMPANY_NAME') }}
+                                {{ config('globals.company.name') }}
                             </h2>
                             <p class="text-sm text-gray-300"></p>
                         </div>
                     </div>
 
                     <p class="text-gray-300 text-sm leading-relaxed">
-                        {{ env('GLOBALS_COMPANY_TAGLINE') }}
+                        {{ config('globals.company.tagline') }}
                     </p>
                 </div>
             </div>
@@ -41,9 +41,9 @@
                             </svg>
                         </div>
                         <div>
-                            <a href="mailto:{{ env('globals.contact.CONTACT_EMAIL') }}" 
+                            <a href="mailto:{{ config('globals.contact.email') }}" 
                                class="text-gray-300 hover:text-white transition-colors text-sm">
-                                {{ env('GLOBALS.CONTACT.EMAIL') }}
+                                {{ config('globals.contact.email') }}
                             </a>
                         </div>
                     </div>
@@ -55,9 +55,9 @@
                             </svg>
                         </div>
                         <div>
-                            <a href="tel:+{{ env('GLOBALS.CONTACT.PHONE_NUMBER') }}" 
+                            <a href="tel:+{{ config('globals.contact.phone_number') }}" 
                                class="text-gray-300 hover:text-white transition-colors text-sm">
-                                {{ env('GLOBALS.CONTACT.PHONE_NUMBER') }}
+                                {{ config('globals.contact.phone_number') }}
                             </a>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                             </svg>
                         </div>
                         <div>
-                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', env('GLOBALS.CONTACT.WHATAPP_PHONE_NUMBER')) }}" 
+                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', config('globals.contact.whatsapp_phone_number')) }}" 
                             target="_blank" 
                             rel="noopener"
                             class="text-gray-300 hover:text-white transition-colors text-sm font-medium">
@@ -88,7 +88,7 @@
                         </div>
                         <div class="text-gray-300 text-sm">
                             <p class="font-medium text-white">Visit Our Store</p>
-                            <p class="leading-relaxed">{{ env('GLOBALS.CONTACT.ADDRESS') }}</p>
+                            <p class="leading-relaxed">{{ config('globals.contact.address') }}</p>
                         </div>
                     </div>
                 </div>
@@ -243,7 +243,7 @@
                 {{-- Copyright --}}
                 <div class="text-center md:text-left">
                     <p class="text-gray-300 text-sm">
-                        © {{ now()->year }} <a href="{{ env('globals.contact.url')}}">{{env('globals.contact.company_name')}}</a>. All rights reserved.
+                        © {{ now()->year }} <a href="{{ config('globals.company.url')}}">{{ config('globals.company.name') }}</a>. All rights reserved.
                     </p>
                     <p class="text-gray-400 text-xs mt-1">
                         Design & Developed by 

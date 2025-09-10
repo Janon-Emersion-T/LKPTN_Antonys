@@ -29,7 +29,9 @@
       "mcp__laravel-boost__search-docs",
       "mcp__laravel-boost__get-config",
       "mcp__laravel-boost__database-connections",
-      "mcp__laravel-boost__last-error"
+      "mcp__laravel-boost__last-error",
+      "mcp__laravel-boost__list-available-env-vars",
+      "Bash(sed:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

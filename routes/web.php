@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\Customer\CustomerDashboardController;
 use App\Http\Controllers\Admin\BarcodeController;
 
@@ -49,6 +50,11 @@ Route::get('/about-us', function () {
 Route::get('/contact-us', [ContactController::class, 'index'])->name('contactus');
 Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.store');
 
+// News routes (public)
+Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
+Route::get('/news/category/{slug}', [NewsController::class, 'category'])->name('news.category');
+
 // Product routes (public)
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
@@ -85,6 +91,16 @@ Route::middleware(['auth', 'verified', 'role:super-admin|admin'])->prefix('dashb
     Route::get('/analytics', \App\Livewire\Admin\Analytics::class)->name('analytics');
     Route::get('/roles', \App\Livewire\Admin\RolesPermissions::class)->name('roles');
     Route::get('/contacts', \App\Livewire\Admin\Contacts::class)->name('contacts');
+    
+    // News management routes
+    Route::prefix('news')->name('news.')->group(function () {
+        Route::get('/', [NewsController::class, 'adminIndex'])->name('index');
+        Route::get('/create', [NewsController::class, 'create'])->name('create');
+        Route::post('/', [NewsController::class, 'store'])->name('store');
+        Route::get('/{news}/edit', [NewsController::class, 'edit'])->name('edit');
+        Route::put('/{news}', [NewsController::class, 'update'])->name('update');
+        Route::delete('/{news}', [NewsController::class, 'destroy'])->name('destroy');
+    });
     
     // Barcode printing routes
     Route::prefix('barcodes')->name('barcodes.')->group(function () {

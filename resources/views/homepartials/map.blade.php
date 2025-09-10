@@ -9,7 +9,7 @@
                     {{-- Map Header --}}
                     <div class="p-4 bg-gray-100 border-b">
                         <h3 class="text-lg font-semibold text-gray-900 mb-2">Our Location</h3>
-                        <p class="text-sm text-gray-600">Antonys Computers PVT LTD, 149/1 Jaffna-Kankesanturai Rd, Jaffnaa</p>
+                        <p class="text-sm text-gray-600">{{ config('globals.company.name') }}, {{ config('globals.contact.address') }}</p>
                     </div>
 
                     {{-- Map Container --}}
@@ -24,8 +24,8 @@
                                             <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"/>
                                         </svg>
                                     </div>
-                                    <h4 class="font-bold text-gray-900 mb-2">Barclays Computers</h4>
-                                    <p class="text-sm text-gray-600 mb-4">#42 Galle Road, Colombo</p>
+                                    <h4 class="font-bold text-gray-900 mb-2">{{ config('globals.company.name') }}</h4>
+                                    <p class="text-sm text-gray-600 mb-4">{{ config('globals.contact.address') }}</p>
                                     <button 
                                         id="viewMapBtn"
                                         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium transition-colors duration-300">
@@ -68,10 +68,10 @@
                             </div>
                         </div>
 
-                        {{-- Actual Google Maps Embed (Replace with real map) --}}
+                        {{-- Actual Google Maps Embed --}}
                         <iframe 
                             id="googleMap"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.7849076859707!2d79.85627631477236!3d6.914681795007904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25963120b1509%3A0x2db2c18a68712863!2s42%20Galle%20Rd%2C%20Colombo!5e0!3m2!1sen!2slk!4v1642678901234!5m2!1sen!2slk"
+                            src="{{ config('globals.other.map_iframe') }}"
                             width="100%" 
                             height="100%" 
                             style="border:0; display: none;" 
@@ -88,20 +88,20 @@
                                 <svg class="w-4 h-4 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
                                 </svg>
-                                <span class="text-gray-700">{{env('GLOBALS.CONTACT.PHONE_NUMBER')}}</span>
+                                <span class="text-gray-700">{{ config('globals.contact.phone_number') }}</span>
                             </div>
                             <div class="flex items-center">
                                 <svg class="w-4 h-4 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
                                     <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
                                 </svg>
-                                <span class="text-gray-700">{{env('GLOBALS.CONTACT.EMAIL')}}</span>
+                                <span class="text-gray-700">{{ config('globals.contact.email') }}</span>
                             </div>
                             <div class="flex items-center">
                                 <svg class="w-4 h-4 text-red-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/>
                                 </svg>
-                                <span class="text-gray-700">{{env('GLOBALS.COMPANY_OPENING_HOURS')}}</span>
+                                <span class="text-gray-700">{{ config('globals.other.company_opening_hours') }}</span>
                             </div>
                         </div>
                     </div>
@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Map loaded');
         } else {
             // Open in new window for larger view
-            window.open('https://www.google.com/maps/place/42+Galle+Rd,+Colombo', '_blank');
+            window.open('https://www.google.com/maps/place/St+Antony%27s+Computers,+149%2F1+Jaffna-Kankesanturai+Rd,+Jaffna', '_blank');
         }
     }
 
@@ -409,7 +409,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Get directions functionality
     window.getDirections = function() {
-        const destination = "149/1 Jaffna-Kankesanturai Rd, Jaffna";
+        const destination = "St Antony's Computers, 149/1 Jaffna-Kankesanturai Rd, Jaffna";
         const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
         window.open(googleMapsUrl, '_blank');
     };
@@ -417,9 +417,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Share location functionality
     window.shareLocation = function() {
         const locationData = {
-            title: 'Barclays Computers PVT LTD',
-            text: 'Visit us at #42 Galle Road, Colombo',
-            url: 'https://www.google.com/maps/place/42+Galle+Rd,+Colombo'
+            title: 'Antony\'s Computers',
+            text: 'Visit us at 149/1 Jaffna-Kankesanturai Rd, Jaffna',
+            url: 'https://www.google.com/maps/place/St+Antony%27s+Computers,+149%2F1+Jaffna-Kankesanturai+Rd,+Jaffna'
         };
 
         if (navigator.share) {

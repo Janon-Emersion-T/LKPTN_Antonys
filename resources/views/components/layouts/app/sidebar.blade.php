@@ -41,6 +41,10 @@
                         <flux:navlist.item icon="tag" :href="route('dashboard.categories')" :current="request()->routeIs('dashboard.categories')" wire:navigate>{{ __('Categories') }}</flux:navlist.item>
                         <flux:navlist.item icon="building-storefront" :href="route('dashboard.brands')" :current="request()->routeIs('dashboard.brands')" wire:navigate>{{ __('Brands') }}</flux:navlist.item>
                     </flux:navlist.group>
+                    
+                    <flux:navlist.group :heading="__('Content')" class="grid">
+                        <flux:navlist.item icon="newspaper" :href="route('dashboard.news.index')" :current="request()->routeIs('dashboard.news.*')" wire:navigate>{{ __('News Management') }}</flux:navlist.item>
+                    </flux:navlist.group>
                 @endif
 
                 @if(in_array('manager', $userRoles) && !in_array('super-admin', $userRoles) && !in_array('admin', $userRoles))

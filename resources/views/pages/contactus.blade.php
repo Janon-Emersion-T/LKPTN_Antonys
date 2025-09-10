@@ -2,8 +2,8 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     @include('partials.head')
-    <title>Brands - {{ config('app.name') }}</title>
-    <meta name="description" content="Browse all brands at {{ config('app.name') }}. Find products from Dell, HP, Lenovo, ASUS, Acer, Apple and more leading technology brands.">
+    <title>Contact Us - {{ config('globals.company.name') }}</title>
+    <meta name="description" content="Contact Antony's Computers for all your IT needs. Visit our showroom in Jaffna or reach us by phone, WhatsApp, or email for expert computer services.">
 </head>
 <body class="min-h-screen bg-gray-50 dark:bg-gray-900">
     @include('partials.header')
@@ -16,7 +16,7 @@
         {{-- Page Header --}}
         <div class="text-center">
             <h1 class="text-4xl font-bold text-gray-900 mb-2">Contact Us</h1>
-            <p class="text-lg text-blue-600 font-semibold">HOTLINE: {{env('GLOBALS.CONTACT.PHONE_NUMBER')}}</p>
+            <p class="text-lg text-blue-600 font-semibold">HOTLINE: {{ config('globals.contact.phone_number') }}</p>
         </div>
 
         {{-- Main Content Grid --}}
@@ -28,10 +28,10 @@
                 <div class="bg-white rounded-lg shadow p-6">
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">Contact Details</h2>
                     <ul class="space-y-3 text-gray-700 text-sm">
-                        <li><strong>Phone:</strong> <a href="tel:+{{env('GLOBALS.CONTACT.PHONE_NUMBER')}}" class="text-blue-600 hover:underline">+{{env('GLOBALS.CONTACT.PHONE_NUMBER')}}</a></li>
-                        <li><strong>WhatsApp:</strong> <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', env('GLOBALS.CONTACT.WHATAPP_PHONE_NUMBER')) }}" target="_blank" class="text-blue-600 hover:underline">{{env('GLOBALS.CONTACT.WHATAPP_PHONE_NUMBER')}}</a></li>
-                        <li><strong>Email:</strong> <a href="mailto:{{ env('GLOBALS.CONTACT.EMAIL')}}" class="text-blue-600 hover:underline">{{ env('GLOBALS.CONTACT.EMAIL')}}</a></li>
-                        <li><strong>Address:</strong> 149/1 Jaffna-Kankesanturai Rd, Jaffna</li>
+                        <li><strong>Phone:</strong> <a href="tel:{{ config('globals.contact.phone_number') }}" class="text-blue-600 hover:underline">{{ config('globals.contact.phone_number') }}</a></li>
+                        <li><strong>WhatsApp:</strong> <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', config('globals.contact.whatsapp_phone_number')) }}" target="_blank" class="text-blue-600 hover:underline">{{ config('globals.contact.whatsapp_phone_number') }}</a></li>
+                        <li><strong>Email:</strong> <a href="mailto:{{ config('globals.contact.email') }}" class="text-blue-600 hover:underline">{{ config('globals.contact.email') }}</a></li>
+                        <li><strong>Address:</strong> {{ config('globals.contact.address') }}</li>
                     </ul>
                 </div>
 
@@ -40,8 +40,8 @@
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">Business Hours</h2>
                     <ul class="text-sm text-gray-700 space-y-2">
                         <li class="flex justify-between">
-                            <span>Monday - Saturday:</span>
-                            <span class="font-medium">{{env('GLOBALS.COMPANY_OPENING_HOURS')}}</span>
+                            <span>Business Hours:</span>
+                            <span class="font-medium">{{ config('globals.other.company_opening_hours') }}</span>
                         </li>
                     </ul>
                 </div>
@@ -51,22 +51,41 @@
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">Feedback</h2>
                     <p class="text-sm text-gray-600">
                         Have questions about our services? Email us at 
-                        <a href="mailto:{{ env('GLOBALS.CONTACT.EMAIL')}}" class="text-blue-600 hover:underline">{{ env('GLOBALS.CONTACT.EMAIL')}}</a>
+                        <a href="mailto:{{ config('globals.contact.email') }}" class="text-blue-600 hover:underline">{{ config('globals.contact.email') }}</a>
                     </p>
                 </div>
             </div>
 
             {{-- Right Column - Map --}}
             <div class="bg-white rounded-lg shadow overflow-hidden">
+                <div class="p-4 bg-gray-50 border-b">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-1">Visit Our Store</h3>
+                    <p class="text-sm text-gray-600">{{ config('globals.contact.address') }}</p>
+                </div>
                 <iframe
-                    src="{{ env('GLOBALS.MAP_IFRAME')}}"
+                    src="{{ config('globals.other.map_iframe') }}"
                     width="100%"
-                    height="600"
+                    height="500"
                     style="border:0;"
                     allowfullscreen
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
+                <div class="p-4 bg-gray-50 border-t">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-600">
+                            <svg class="w-4 h-4 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"/>
+                            </svg>
+                            <span>Get Directions</span>
+                        </div>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination={{ urlencode(config('globals.contact.address')) }}" 
+                           target="_blank" 
+                           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
+                            Open in Maps
+                        </a>
+                    </div>
+                </div>
             </div>
 
         </div>
