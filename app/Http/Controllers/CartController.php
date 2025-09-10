@@ -178,7 +178,7 @@ class CartController extends Controller
         $orderSummary = $this->generateWhatsAppMessage($cart, $request->all());
         
         // WhatsApp URL
-        $whatsappNumber = env('GLOBALS.CONTACT.WHATAPP_PHONE_NUMBER', env('whatsapp_no', '94772798192'));
+        $whatsappNumber = preg_replace('/[^0-9]/', '', config('globals.contact.whatsapp_phone_number', '94772798192'));
         $whatsappUrl = "https://wa.me/{$whatsappNumber}?text=" . urlencode($orderSummary);
 
         // Clear cart after generating message

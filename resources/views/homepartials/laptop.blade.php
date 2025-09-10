@@ -246,7 +246,12 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // CSRF token for AJAX requests
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
+    const csrfToken = csrfTokenMeta ? csrfTokenMeta.getAttribute('content') : '';
+    
+    if (!csrfToken) {
+        console.error('CSRF token not found');
+    }
     
     // Carousel functionality for 3-product display
     const productTrack = document.getElementById('productTrack');
@@ -396,6 +401,12 @@ document.addEventListener('DOMContentLoaded', function() {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
+            // Check if CSRF token exists
+            if (!csrfToken) {
+                alert('Security token missing. Please refresh the page and try again.');
+                return;
+            }
+            
             const productId = this.dataset.productId;
             const quantity = this.querySelector('input[name="quantity"]').value;
             const button = this.querySelector('button[type="submit"]');
@@ -407,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function() {
             button.classList.add('opacity-75');
             
             // Send AJAX request to add to cart
-            fetch('{{ route("cart.add") }}', {
+            fetch('/cart/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -419,8 +430,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     quantity: parseInt(quantity)
                 })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log('Cart response:', data); // Debug log
                 if (data.success) {
                     // Show success state
                     button.textContent = 'ADDED!';
@@ -428,9 +445,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     button.classList.add('bg-green-500', 'hover:bg-green-600');
                     
                     // Update cart count in header if exists
-                    const cartCount = document.querySelector('.cart-count');
-                    if (cartCount && data.cartCount) {
-                        cartCount.textContent = data.cartCount;
+                    const cartCountElements = document.querySelectorAll('[data-cart-count]');
+                    if (cartCountElements.length > 0 && data.cart_count !== undefined) {
+                        cartCountElements.forEach(element => {
+                            element.textContent = data.cart_count;
+                        });
                     }
                     
                     // Reset button after 2 seconds

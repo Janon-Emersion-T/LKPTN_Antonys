@@ -18,7 +18,7 @@ class ProductController extends Controller
     {
         $products = Product::query()
             ->with(['category', 'brand', 'images'])
-            ->where('status', 'active')
+            ->where('status', 'published')
             ->where('inventory_quantity', '>', 0);
 
         // Search functionality
@@ -93,8 +93,8 @@ class ProductController extends Controller
      */
     public function show(Product $product): View
     {
-        // Check if product is active
-        if ($product->status !== 'active') {
+        // Check if product is published
+        if ($product->status !== 'published') {
             abort(404);
         }
 
@@ -112,7 +112,7 @@ class ProductController extends Controller
         $relatedProducts = Product::query()
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
-            ->where('status', 'active')
+            ->where('status', 'published')
             ->where('inventory_quantity', '>', 0)
             ->with(['images', 'brand'])
             ->inRandomOrder()
@@ -151,7 +151,7 @@ class ProductController extends Controller
 
         $products = Product::query()
             ->where('category_id', $category->id)
-            ->where('status', 'active')
+            ->where('status', 'published')
             ->where('inventory_quantity', '>', 0)
             ->with(['brand', 'images'])
             ->orderBy('name')
@@ -183,7 +183,7 @@ class ProductController extends Controller
 
         $products = Product::query()
             ->where('brand_id', $brand->id)
-            ->where('status', 'active')
+            ->where('status', 'published')
             ->where('inventory_quantity', '>', 0)
             ->with(['category', 'images'])
             ->orderBy('name')
