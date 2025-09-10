@@ -154,56 +154,30 @@
         </div>
 
         <!-- Main Navigation Menu -->
-        <nav class="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+        <nav class="border-t border-gray-200 dark:border-gray-700 bg-yellow-400 dark:bg-yellow-500">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Desktop Navigation -->
                 <div class="hidden md:block">
-                    <div class="flex items-center justify-between py-4">
-                        <!-- Breadcrumb -->
-                        <ol class="flex items-center space-x-2">
-                            <li>
-                                <a href="{{ route('home') }}" class="flex items-center text-sm font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors duration-200">
-                                    <svg class="flex-shrink-0 h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                                    </svg>
-                                    Home
-                                </a>
-                            </li>
-                            
-                            @if(!request()->routeIs('home'))
-                                <li class="flex items-center">
-                                    <svg class="flex-shrink-0 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                    
-                                    @if(request()->routeIs('shop.*'))
-                                        <a href="{{ route('shop.index') }}" class="ml-2 text-sm font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400">Shop</a>
-                                    @elseif(request()->routeIs('categories.*'))
-                                        <a href="{{ route('categories.index') }}" class="ml-2 text-sm font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400">Categories</a>
-                                    @elseif(request()->routeIs('brands.*'))
-                                        <a href="{{ route('brands.index') }}" class="ml-2 text-sm font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400">Brands</a>
-                                    @elseif(request()->routeIs('cart.*'))
-                                        <span class="ml-2 text-sm font-medium text-gray-900 dark:text-white">Cart</span>
-                                    @elseif(request()->routeIs('customer.*'))
-                                        <span class="ml-2 text-sm font-medium text-gray-900 dark:text-white">My Account</span>
-                                    @endif
-                                </li>
-                            @endif
-                        </ol>
-                        
+                    <div class="flex items-center justify-center py-4">
                         <!-- Main Navigation Links -->
-                        <div class="flex items-center space-x-6">
-                            <a href="{{ route('shop.index') }}" class="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200 {{ request()->routeIs('shop.*') ? 'text-blue-600 dark:text-blue-400' : '' }}">
+                        <div class="flex items-center space-x-8">
+                            <a href="{{ route('home') }}" class="text-sm font-semibold text-gray-900 hover:text-blue-700 dark:text-gray-900 dark:hover:text-blue-800 transition-colors duration-200 px-3 py-2 rounded-md {{ request()->routeIs('home') ? 'bg-blue-600 text-white hover:text-white' : '' }}">
+                                Home
+                            </a>
+                            <a href="{{ route('shop.index') }}" class="text-sm font-semibold text-gray-900 hover:text-blue-700 dark:text-gray-900 dark:hover:text-blue-800 transition-colors duration-200 px-3 py-2 rounded-md {{ request()->routeIs('shop.*') ? 'bg-blue-600 text-white hover:text-white' : '' }}">
                                 Shop
                             </a>
-                            <a href="{{ route('categories.index') }}" class="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200 {{ request()->routeIs('categories.*') ? 'text-blue-600 dark:text-blue-400' : '' }}">
+                            <a href="{{ route('categories.index') }}" class="text-sm font-semibold text-gray-900 hover:text-blue-700 dark:text-gray-900 dark:hover:text-blue-800 transition-colors duration-200 px-3 py-2 rounded-md {{ request()->routeIs('categories.*') ? 'bg-blue-600 text-white hover:text-white' : '' }}">
                                 Categories
                             </a>
-                            <a href="{{ route('brands.index') }}" class="text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors duration-200 {{ request()->routeIs('brands.*') ? 'text-blue-600 dark:text-blue-400' : '' }}">
+                            <a href="{{ route('brands.index') }}" class="text-sm font-semibold text-gray-900 hover:text-blue-700 dark:text-gray-900 dark:hover:text-blue-800 transition-colors duration-200 px-3 py-2 rounded-md {{ request()->routeIs('brands.*') ? 'bg-blue-600 text-white hover:text-white' : '' }}">
                                 Brands
                             </a>
-                            <a href="{{ route('shop.index') }}?sort=price_low_to_high" class="text-sm font-medium text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-200">
-                                Special Offers
+                            <a href="{{ route('aboutus') }}" class="text-sm font-semibold text-gray-900 hover:text-blue-700 dark:text-gray-900 dark:hover:text-blue-800 transition-colors duration-200 px-3 py-2 rounded-md {{ request()->routeIs('aboutus') ? 'bg-blue-600 text-white hover:text-white' : '' }}">
+                                About Us
+                            </a>
+                            <a href="{{ route('contactus') }}" class="text-sm font-semibold text-gray-900 hover:text-blue-700 dark:text-gray-900 dark:hover:text-blue-800 transition-colors duration-200 px-3 py-2 rounded-md {{ request()->routeIs('contactus') ? 'bg-blue-600 text-white hover:text-white' : '' }}">
+                                Contact Us
                             </a>
                         </div>
                     </div>
@@ -213,41 +187,13 @@
                 <div class="md:hidden">
                     <!-- Mobile Header with Hamburger -->
                     <div class="flex items-center justify-between py-3">
-                        <!-- Breadcrumb Path -->
-                        <ol class="flex items-center space-x-1 text-sm">
-                            <li>
-                                <a href="{{ route('home') }}" class="flex items-center text-gray-500 hover:text-blue-600 dark:text-gray-400">
-                                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                                    </svg>
-                                </a>
-                            </li>
-                            
-                            @if(!request()->routeIs('home'))
-                                <li class="flex items-center">
-                                    <svg class="h-4 w-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                    
-                                    @if(request()->routeIs('shop.*'))
-                                        <span class="ml-1 text-gray-900 dark:text-white font-medium">Shop</span>
-                                    @elseif(request()->routeIs('categories.*'))
-                                        <span class="ml-1 text-gray-900 dark:text-white font-medium">Categories</span>
-                                    @elseif(request()->routeIs('brands.*'))
-                                        <span class="ml-1 text-gray-900 dark:text-white font-medium">Brands</span>
-                                    @elseif(request()->routeIs('cart.*'))
-                                        <span class="ml-1 text-gray-900 dark:text-white font-medium">Cart</span>
-                                    @elseif(request()->routeIs('customer.*'))
-                                        <span class="ml-1 text-gray-900 dark:text-white font-medium">My Account</span>
-                                    @endif
-                                </li>
-                            @endif
-                        </ol>
+                        <!-- Navigation Menu Text -->
+                        <span class="text-sm font-semibold text-gray-900 dark:text-gray-900">Menu</span>
                         
                         <!-- Mobile Menu Toggle -->
                         <button 
                             onclick="toggleNavigation()"
-                            class="p-2 text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+                            class="p-2 text-gray-900 hover:text-blue-700 dark:text-gray-900 dark:hover:text-blue-800"
                             aria-label="Toggle navigation menu"
                         >
                             <svg id="menu-icon" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -260,31 +206,43 @@
                     </div>
                     
                     <!-- Mobile Navigation Menu -->
-                    <div id="mobile-nav" class="hidden border-t border-gray-200 dark:border-gray-600 py-3">
-                        <div class="space-y-1">
-                            <a href="{{ route('shop.index') }}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 dark:text-gray-300 dark:hover:text-blue-400 dark:hover:bg-blue-900/30 rounded-lg transition-colors duration-200 {{ request()->routeIs('shop.*') ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' : '' }}">
+                    <div id="mobile-nav" class="hidden border-t border-gray-900/20 py-3 bg-yellow-300 dark:bg-yellow-400">
+                        <div class="space-y-2">
+                            <a href="{{ route('home') }}" class="flex items-center px-3 py-3 text-sm font-medium text-gray-900 hover:text-blue-700 hover:bg-yellow-200 dark:text-gray-900 dark:hover:text-blue-800 dark:hover:bg-yellow-300 rounded-lg transition-colors duration-200 {{ request()->routeIs('home') ? 'bg-blue-600 text-white hover:text-white' : '' }}">
+                                <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m0 0h4m0 0h3a1 1 0 001-1V10M9 21h6"></path>
+                                </svg>
+                                Home
+                            </a>
+                            <a href="{{ route('shop.index') }}" class="flex items-center px-3 py-3 text-sm font-medium text-gray-900 hover:text-blue-700 hover:bg-yellow-200 dark:text-gray-900 dark:hover:text-blue-800 dark:hover:bg-yellow-300 rounded-lg transition-colors duration-200 {{ request()->routeIs('shop.*') ? 'bg-blue-600 text-white hover:text-white' : '' }}">
                                 <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                                 </svg>
                                 Shop
                             </a>
-                            <a href="{{ route('categories.index') }}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 dark:text-gray-300 dark:hover:text-blue-400 dark:hover:bg-blue-900/30 rounded-lg transition-colors duration-200 {{ request()->routeIs('categories.*') ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' : '' }}">
+                            <a href="{{ route('categories.index') }}" class="flex items-center px-3 py-3 text-sm font-medium text-gray-900 hover:text-blue-700 hover:bg-yellow-200 dark:text-gray-900 dark:hover:text-blue-800 dark:hover:bg-yellow-300 rounded-lg transition-colors duration-200 {{ request()->routeIs('categories.*') ? 'bg-blue-600 text-white hover:text-white' : '' }}">
                                 <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                                 </svg>
                                 Categories
                             </a>
-                            <a href="{{ route('brands.index') }}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 dark:text-gray-300 dark:hover:text-blue-400 dark:hover:bg-blue-900/30 rounded-lg transition-colors duration-200 {{ request()->routeIs('brands.*') ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' : '' }}">
+                            <a href="{{ route('brands.index') }}" class="flex items-center px-3 py-3 text-sm font-medium text-gray-900 hover:text-blue-700 hover:bg-yellow-200 dark:text-gray-900 dark:hover:text-blue-800 dark:hover:bg-yellow-300 rounded-lg transition-colors duration-200 {{ request()->routeIs('brands.*') ? 'bg-blue-600 text-white hover:text-white' : '' }}">
                                 <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                                 </svg>
                                 Brands
                             </a>
-                            <a href="{{ route('shop.index') }}?sort=price_low_to_high" class="flex items-center px-3 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900/30 rounded-lg transition-colors duration-200">
+                            <a href="{{ route('aboutus') }}" class="flex items-center px-3 py-3 text-sm font-medium text-gray-900 hover:text-blue-700 hover:bg-yellow-200 dark:text-gray-900 dark:hover:text-blue-800 dark:hover:bg-yellow-300 rounded-lg transition-colors duration-200 {{ request()->routeIs('aboutus') ? 'bg-blue-600 text-white hover:text-white' : '' }}">
                                 <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
-                                Special Offers
+                                About Us
+                            </a>
+                            <a href="{{ route('contactus') }}" class="flex items-center px-3 py-3 text-sm font-medium text-gray-900 hover:text-blue-700 hover:bg-yellow-200 dark:text-gray-900 dark:hover:text-blue-800 dark:hover:bg-yellow-300 rounded-lg transition-colors duration-200 {{ request()->routeIs('contactus') ? 'bg-blue-600 text-white hover:text-white' : '' }}">
+                                <svg class="h-4 w-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                                Contact Us
                             </a>
                         </div>
                     </div>
