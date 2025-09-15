@@ -46,9 +46,9 @@
 
                         {{-- CTA Button --}}
                         <div class="flex justify-start mt-4">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                            <a href="{{ url('/shop?search=&category=laptop&brand=asus&price_min=&price_max=&sort=')}}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
                                 EXPLORE VICTUS
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>

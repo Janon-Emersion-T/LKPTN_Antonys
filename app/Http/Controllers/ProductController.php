@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Category;
+use App\Models\Product;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Illuminate\Database\Eloquent\Builder;
 
 class ProductController extends Controller
 {
@@ -56,7 +56,7 @@ class ProductController extends Controller
         // Sorting
         $sort = $request->get('sort', 'name');
         $direction = $request->get('direction', 'asc');
-        
+
         switch ($sort) {
             case 'price':
                 $products->orderBy('price', $direction);
@@ -76,7 +76,7 @@ class ProductController extends Controller
         $categories = Category::active()
             ->orderBy('name')
             ->get();
-        
+
         $brands = Brand::active()
             ->orderBy('name')
             ->get();
@@ -103,9 +103,6 @@ class ProductController extends Controller
             'category',
             'brand',
             'images',
-            'variants' => function ($query) {
-                $query->where('status', 'active');
-            }
         ]);
 
         // Get related products from same category
@@ -120,14 +117,14 @@ class ProductController extends Controller
             ->get();
 
         // SEO meta data
-        $metaTitle = $product->name . ' - ' . config('app.name');
+        $metaTitle = $product->name.' - '.config('app.name');
         $metaDescription = substr(strip_tags($product->description), 0, 160);
         $metaKeywords = implode(', ', [
             $product->name,
             $product->category->name ?? '',
             $product->brand->name ?? '',
             'sri lanka',
-            'online store'
+            'online store',
         ]);
 
         return view('products.show', compact(
@@ -145,7 +142,7 @@ class ProductController extends Controller
     public function category(Category $category): View
     {
         // Check if category is active
-        if (!$category->is_active) {
+        if (! $category->is_active) {
             abort(404);
         }
 
@@ -158,11 +155,11 @@ class ProductController extends Controller
             ->paginate(12);
 
         // SEO meta data
-        $metaTitle = $category->name . ' - ' . config('app.name');
-        $metaDescription = $category->description 
+        $metaTitle = $category->name.' - '.config('app.name');
+        $metaDescription = $category->description
             ? substr(strip_tags($category->description), 0, 160)
-            : "Shop {$category->name} products at " . config('app.name');
-        
+            : "Shop {$category->name} products at ".config('app.name');
+
         return view('products.category', compact(
             'category',
             'products',
@@ -177,7 +174,7 @@ class ProductController extends Controller
     public function brand(Brand $brand): View
     {
         // Check if brand is active
-        if (!$brand->is_active) {
+        if (! $brand->is_active) {
             abort(404);
         }
 
@@ -190,10 +187,10 @@ class ProductController extends Controller
             ->paginate(12);
 
         // SEO meta data
-        $metaTitle = $brand->name . ' Products - ' . config('app.name');
-        $metaDescription = $brand->description 
+        $metaTitle = $brand->name.' Products - '.config('app.name');
+        $metaDescription = $brand->description
             ? substr(strip_tags($brand->description), 0, 160)
-            : "Shop {$brand->name} products at " . config('app.name');
+            : "Shop {$brand->name} products at ".config('app.name');
 
         return view('products.brand', compact(
             'brand',

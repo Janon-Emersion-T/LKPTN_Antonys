@@ -7,7 +7,7 @@
 </head>
 <body class="min-h-screen bg-gray-50 dark:bg-gray-900">
     @include('partials.header')
-    
+
     <main class="container mx-auto px-4 py-8">
         <!-- Breadcrumb -->
         <nav class="mb-8 text-sm">
@@ -21,129 +21,109 @@
         <!-- Page Header -->
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Product Categories</h1>
-            <p class="text-gray-600 dark:text-gray-400">Explore our complete range of computer products organized by category</p>
+            <p class="text-gray-600 dark:text-gray-400">Browse our complete range of computer products by category</p>
         </div>
 
-        <!-- Categories Grid -->
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            @php
-                $categories = \App\Models\Category::where('is_active', true)
-                    ->withCount('products')
-                    ->orderBy('name')
-                    ->get();
-            @endphp
-            
-            @foreach($categories as $category)
-                <div class="group overflow-hidden rounded-lg bg-white shadow-sm transition-shadow hover:shadow-md dark:bg-gray-800">
-                    <!-- Category Header -->
-                    <div class="relative h-32 overflow-hidden">
-                        @if($category->products->first() && $category->products->first()->images->first())
-                            <img 
-                                src="{{ asset('storage/' . $category->products->first()->images->first()->image_path) }}" 
-                                alt="{{ $category->name }}"
-                                class="h-full w-full object-cover transition-transform group-hover:scale-105"
-                            >
-                        @else
-                            <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600">
-                                <div class="text-center text-white">
-                                    <div class="text-4xl mb-2">
-                                        @switch($category->name)
-                                            @case('Laptops')
-                                                💻
-                                                @break
-                                            @case('Desktops')
-                                                🖥️
-                                                @break
-                                            @case('Gaming')
-                                                🎮
-                                                @break
-                                            @case('Accessories')
-                                                ⌨️
-                                                @break
-                                            @case('Components')
-                                                🔧
-                                                @break
-                                            @default
-                                                🖱️
-                                        @endswitch
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        
-                        <!-- Overlay -->
-                        <div class="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    </div>
+        @php
+            $categories = \App\Models\Category::where('is_active', true)
+                ->withCount(['products' => function($query) {
+                    $query->where('status', 'published');
+                }])
+                ->orderBy('name')
+                ->get()
+                ->groupBy(function($category) {
+                    return strtoupper(substr($category->name, 0, 1));
+                });
 
-                    <!-- Category Info -->
-                    <div class="p-6">
-                        <div class="mb-2">
-                            <h3 class="font-semibold text-gray-900 dark:text-white text-lg">
-                                <a href="{{ route('categories.show', $category->slug) }}" class="hover:text-blue-600 dark:hover:text-blue-400">
-                                    {{ $category->name }}
-                                </a>
-                            </h3>
-                        </div>
+            $alphabet = range('A', 'Z');
+        @endphp
 
-                        @if($category->description)
-                            <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
-                                {{ $category->description }}
-                            </p>
-                        @endif
-
-                        <!-- Product Count and Price Range -->
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-sm text-blue-600 dark:text-blue-400 font-medium">
-                                {{ $category->products_count }} {{ Str::plural('product', $category->products_count) }}
-                            </span>
-                            @php
-                                $priceRange = $category->products()
-                                    ->where('status', 'active')
-                                    ->where('inventory_quantity', '>', 0)
-                                    ->selectRaw('MIN(price) as min_price, MAX(price) as max_price')
-                                    ->first();
-                            @endphp
-                            @if($priceRange && $priceRange->min_price)
-                                <span class="text-sm text-gray-600 dark:text-gray-400">
-                                    From LKR {{ number_format($priceRange->min_price, 0) }}
-                                </span>
-                            @endif
-                        </div>
-
-                        <!-- Browse Button -->
-                        <a 
-                            href="{{ route('categories.show', $category->slug) }}"
-                            class="block w-full rounded-md bg-blue-600 px-4 py-2 text-center text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            Browse {{ $category->name }}
+        <!-- Alphabet Navigation -->
+        <div class="mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4">
+            <div class="flex flex-wrap gap-2 justify-center">
+                @foreach($alphabet as $letter)
+                    @if($categories->has($letter))
+                        <a href="#letter-{{ $letter }}"
+                           class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors">
+                            {{ $letter }}
                         </a>
-
-                        <!-- Featured Brands in Category -->
-                        @php
-                            $categoryBrands = \App\Models\Brand::whereHas('products', function($query) use ($category) {
-                                $query->where('category_id', $category->id)
-                                      ->where('status', 'active');
-                            })->where('is_active', true)->limit(3)->get();
-                        @endphp
-                        
-                        @if($categoryBrands->count() > 0)
-                            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
-                                <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">Featured Brands:</div>
-                                <div class="flex flex-wrap gap-1">
-                                    @foreach($categoryBrands as $brand)
-                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
-                                            {{ $brand->name }}
-                                        </span>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            @endforeach
+                    @else
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-600 text-gray-400 dark:text-gray-500 font-semibold">
+                            {{ $letter }}
+                        </span>
+                    @endif
+                @endforeach
+            </div>
         </div>
 
-        @if($categories->count() === 0)
+        @if($categories->count() > 0)
+            <!-- Categories by Letter -->
+            @foreach($alphabet as $letter)
+                @if($categories->has($letter))
+                    <div id="letter-{{ $letter }}" class="mb-8">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 border-b-2 border-blue-600 pb-2">
+                            {{ $letter }}
+                        </h2>
+
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                Category
+                                            </th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                Description
+                                            </th>
+                                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                                Products
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-600">
+                                        @foreach($categories[$letter] as $category)
+                                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <a href="{{ route('categories.show', $category->slug) }}"
+                                                       class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">
+                                                        {{ $category->name }}
+                                                    </a>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <span class="text-gray-900 dark:text-gray-100 text-sm">
+                                                        {{ $category->description ?: 'Browse ' . $category->name . ' products' }}
+                                                    </span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                                    <span class="text-sm text-gray-600 dark:text-gray-400">
+                                                        {{ $category->products_count }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            @endforeach
+
+            <!-- Back to Top Navigation -->
+            <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4">
+                <div class="flex flex-wrap gap-2 justify-center">
+                    @foreach($alphabet as $letter)
+                        @if($categories->has($letter))
+                            <a href="#letter-{{ $letter }}"
+                               class="inline-flex items-center justify-center w-8 h-8 rounded bg-gray-100 dark:bg-gray-700 text-blue-600 dark:text-blue-400 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                                {{ $letter }}
+                            </a>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+        @else
             <!-- No Categories Found -->
             <div class="rounded-lg bg-white p-12 text-center shadow-sm dark:bg-gray-800">
                 <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

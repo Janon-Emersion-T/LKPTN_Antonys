@@ -1,5 +1,5 @@
 {{-- Product Showcase Section --}}
-<section class="py-8 px-4 sm:px-6 lg:px-8 bg-gray-50">
+<section class="py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800">
     <div class="max-w-7xl mx-auto">
         @if(!$laptopData['hasLaptops'])
             {{-- No Laptops Available Message --}}
@@ -15,10 +15,10 @@
         @else
             <div class="flex flex-col lg:flex-row gap-8">
                 {{-- Main Product Section --}}
-                <div class="flex-1">
+                <div class="flex-1 min-w-0">
                     {{-- Category Tabs --}}
                     <div class="mb-6">
-                        <div class="flex flex-wrap items-center justify-between border-b border-gray-200">
+                        <div class="flex flex-wrap items-center justify-between border-b border-gray-200 dark:border-gray-600">
                             <div class="flex flex-wrap gap-2 mb-4 lg:mb-0">
                                 <h2 class="tab-btn active px-6 py-3 text-sm font-medium border-b-2 border-red-500 text-red-500 hover:text-red-600 transition-colors" data-category="latest">
                                     LATEST LAPTOPS
@@ -26,12 +26,12 @@
                             </div>
                             {{-- Navigation Arrows --}}
                             <div class="flex space-x-2">
-                                <button id="prevProduct" class="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+                                <button id="prevProduct" class="p-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 transition-colors">
                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"/>
                                     </svg>
                                 </button>
-                                <button id="nextProduct" class="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+                                <button id="nextProduct" class="p-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400 transition-colors">
                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"/>
                                     </svg>
@@ -44,70 +44,54 @@
                     <div class="product-container overflow-hidden relative">
                         <div class="product-track flex transition-transform duration-500 ease-in-out" id="productTrack">
                             @foreach($laptopData['latestLaptops'] as $laptop)
-                                <div class="product-card w-1/3 min-w-[280px] bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 mx-2 flex-shrink-0">
-                                    <div class="p-4">
+                                <div class="product-card bg-white dark:bg-gray-700 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 mx-2 flex-shrink-0">
+                                    <a href="{{ route('products.show', $laptop->slug) }}" class="block p-4">
                                         {{-- Product Image --}}
                                         <div class="relative mb-4">
-                                            <img src="{{ $laptop->images->first() ? asset('storage/' . $laptop->images->first()->image_path) : 'data:image/svg+xml;base64,' . base64_encode('<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#f3f4f6"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="#9ca3af">No Image</text></svg>') }}" 
-                                                 alt="{{ $laptop->name }}" 
-                                                 class="w-full h-48 object-contain bg-gray-100 rounded">
+                                            <img src="{{ $laptop->images->first() ? asset('storage/' . $laptop->images->first()->image_path) : 'data:image/svg+xml;base64,' . base64_encode('<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#f3f4f6"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="#9ca3af">No Image</text></svg>') }}"
+                                                 alt="{{ $laptop->name }}"
+                                                 class="w-full h-48 object-contain bg-gray-100 dark:bg-gray-600 rounded">
                                         </div>
 
                                         {{-- Product Thumbnails (if multiple images exist) --}}
                                         @if($laptop->images->count() > 1)
                                             <div class="flex justify-center space-x-2 mb-4">
                                                 @foreach($laptop->images->take(4) as $image)
-                                                    <img src="{{ asset('storage/' . $image->image_path) }}" 
-                                                         class="w-8 h-8 object-cover rounded border cursor-pointer hover:border-blue-500" 
+                                                    <img src="{{ asset('storage/' . $image->image_path) }}"
+                                                         class="w-8 h-8 object-cover rounded border cursor-pointer hover:border-blue-500"
                                                          alt="View {{ $loop->iteration }}">
                                                 @endforeach
                                             </div>
                                         @endif
 
                                         {{-- Product Title --}}
-                                        <h3 class="text-sm font-medium text-gray-900 mb-2 line-clamp-2">
+                                        <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-2 line-clamp-2">
                                             {{ $laptop->name }}
                                         </h3>
 
                                         {{-- Brand --}}
                                         @if($laptop->brand)
-                                            <p class="text-xs text-gray-500 mb-2">{{ $laptop->brand->name }}</p>
+                                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">{{ $laptop->brand->name }}</p>
                                         @endif
 
                                         {{-- Price --}}
                                         <div class="text-center mb-4">
-                                            <div class="text-xl font-bold text-blue-600">{{ number_format($laptop->price, 2) }} per unit</div>
+                                            <div class="text-xl font-bold text-blue-600 dark:text-blue-400">LKR {{ number_format($laptop->price, 0) }}</div>
                                             @if($laptop->compare_price && $laptop->compare_price > $laptop->price)
-                                                <div class="text-sm text-gray-500 line-through">{{ number_format($laptop->compare_price, 2) }}</div>
+                                                <div class="text-sm text-gray-500 line-through">LKR {{ number_format($laptop->compare_price, 0) }}</div>
                                             @endif
                                         </div>
 
                                         {{-- Availability --}}
                                         <div class="flex items-center justify-center mb-4">
-                                            <span class="text-sm text-gray-600 mr-2">Availability:</span>
+                                            <span class="text-sm text-gray-600 dark:text-gray-400 mr-2">Availability:</span>
                                             @if($laptop->inventory_quantity > 0)
                                                 <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Yes ({{ $laptop->inventory_quantity }})</span>
                                             @else
                                                 <span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">Out of Stock</span>
                                             @endif
                                         </div>
-
-                                        {{-- Add to Cart Section --}}
-                                        <form class="add-to-cart-form" data-product-id="{{ $laptop->id }}">
-                                            @csrf
-                                            <div class="flex items-center space-x-2">
-                                                <span class="text-sm text-gray-600">Qty:</span>
-                                                <input type="number" name="quantity" value="1" min="1" max="{{ $laptop->inventory_quantity }}" 
-                                                       class="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm" 
-                                                       {{ $laptop->inventory_quantity <= 0 ? 'disabled' : '' }}>
-                                                <button type="submit" 
-                                                        class="flex-1 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-medium py-2 px-4 rounded text-sm transition-colors {{ $laptop->inventory_quantity <= 0 ? 'opacity-50 cursor-not-allowed' : '' }}"
-                                                        {{ $laptop->inventory_quantity <= 0 ? 'disabled' : '' }}>
-                                                    ADD TO CART
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
+                                    </a>
                                 </div>
                             @endforeach
                         </div>
@@ -115,8 +99,8 @@
                 </div>
 
                 {{-- Hot Deal Sidebar --}}
-                <div class="lg:w-80">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="lg:w-80 flex-shrink-0">
+                    <div class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden">
                         {{-- Hot Deal Header --}}
                         <div class="bg-yellow-400 px-4 py-3 relative">
                             <h2 class="text-lg font-bold text-gray-900">HOT DEAL</h2>
@@ -128,65 +112,50 @@
                         {{-- Hot Deal Product --}}
                         @if($laptopData['hotDealLaptop'])
                             @php $hotLaptop = $laptopData['hotDealLaptop']; @endphp
-                            <div class="p-4">
+                            <a href="{{ route('products.show', $hotLaptop->slug) }}" class="block p-4">
                                 <div class="relative mb-4">
-                                    <img src="{{ $hotLaptop->images->first() ? asset('storage/' . $hotLaptop->images->first()->image_path) : 'data:image/svg+xml;base64,' . base64_encode('<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#f3f4f6"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="#9ca3af">No Image</text></svg>') }}" 
-                                         alt="{{ $hotLaptop->name }}" 
-                                         class="w-full h-48 object-contain bg-gray-100 rounded">
+                                    <img src="{{ $hotLaptop->images->first() ? asset('storage/' . $hotLaptop->images->first()->image_path) : 'data:image/svg+xml;base64,' . base64_encode('<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#f3f4f6"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="#9ca3af">No Image</text></svg>') }}"
+                                         alt="{{ $hotLaptop->name }}"
+                                         class="w-full h-48 object-contain bg-gray-100 dark:bg-gray-600 rounded">
                                 </div>
 
                                 @if($hotLaptop->images->count() > 1)
                                     <div class="flex justify-center space-x-2 mb-4">
                                         @foreach($hotLaptop->images->take(4) as $image)
-                                            <img src="{{ asset('storage/' . $image->image_path) }}" 
-                                                 class="w-8 h-8 object-cover rounded border cursor-pointer hover:border-blue-500" 
+                                            <img src="{{ asset('storage/' . $image->image_path) }}"
+                                                 class="w-8 h-8 object-cover rounded border cursor-pointer hover:border-blue-500"
                                                  alt="View {{ $loop->iteration }}">
                                         @endforeach
                                     </div>
                                 @endif
 
-                                <h3 class="text-sm font-medium text-gray-900 mb-2 line-clamp-2">
+                                <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-2 line-clamp-2">
                                     {{ $hotLaptop->name }}
                                 </h3>
 
                                 @if($hotLaptop->brand)
-                                    <p class="text-xs text-gray-500 mb-2">{{ $hotLaptop->brand->name }}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">{{ $hotLaptop->brand->name }}</p>
                                 @endif
 
                                 <div class="text-center mb-4">
-                                    <div class="text-xl font-bold text-blue-600">{{ number_format($hotLaptop->price, 2) }} per unit</div>
+                                    <div class="text-xl font-bold text-blue-600 dark:text-blue-400">LKR {{ number_format($hotLaptop->price, 0) }}</div>
                                     @if($hotLaptop->compare_price && $hotLaptop->compare_price > $hotLaptop->price)
-                                        <div class="text-sm text-gray-500 line-through">{{ number_format($hotLaptop->compare_price, 2) }}</div>
+                                        <div class="text-sm text-gray-500 line-through">LKR {{ number_format($hotLaptop->compare_price, 0) }}</div>
                                     @endif
                                 </div>
 
                                 <div class="flex items-center justify-center mb-4">
-                                    <span class="text-sm text-gray-600 mr-2">Availability:</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400 mr-2">Availability:</span>
                                     @if($hotLaptop->inventory_quantity > 0)
                                         <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Yes ({{ $hotLaptop->inventory_quantity }})</span>
                                     @else
                                         <span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">Out of Stock</span>
                                     @endif
                                 </div>
-
-                                <form class="add-to-cart-form" data-product-id="{{ $hotLaptop->id }}">
-                                    @csrf
-                                    <div class="flex items-center space-x-2">
-                                        <span class="text-sm text-gray-600">Qty:</span>
-                                        <input type="number" name="quantity" value="1" min="1" max="{{ $hotLaptop->inventory_quantity }}" 
-                                               class="w-16 px-2 py-1 border border-gray-300 rounded text-center text-sm"
-                                               {{ $hotLaptop->inventory_quantity <= 0 ? 'disabled' : '' }}>
-                                        <button type="submit" 
-                                                class="flex-1 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded text-sm transition-colors {{ $hotLaptop->inventory_quantity <= 0 ? 'opacity-50 cursor-not-allowed' : '' }}"
-                                                {{ $hotLaptop->inventory_quantity <= 0 ? 'disabled' : '' }}>
-                                            ADD TO CART
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                            </a>
                         @else
                             <div class="p-4 text-center">
-                                <p class="text-gray-500">No hot deals available at the moment!</p>
+                                <p class="text-gray-500 dark:text-gray-400">No hot deals available at the moment!</p>
                             </div>
                         @endif
                     </div>
@@ -214,98 +183,95 @@
 }
 
 .product-track {
-    width: calc(100% * 4 / 3); /* Width for 4 cards when showing 3 */
+    width: fit-content;
 }
 
 .product-card {
-    flex: 0 0 calc(100% / 3); /* Each card takes 1/3 of visible width */
-    box-sizing: border-box;
+    width: 280px;
+    max-width: 280px;
+    min-width: 280px;
 }
 
+/* Responsive adjustments for better screen adaptation */
 @media (max-width: 1024px) {
     .product-card {
-        flex: 0 0 calc(100% / 2); /* Show 2 cards on tablet */
+        width: 260px;
+        max-width: 260px;
+        min-width: 260px;
     }
-    
-    .product-track {
-        width: calc(100% * 4 / 2); /* Width for 4 cards when showing 2 */
+}
+
+@media (max-width: 768px) {
+    .product-card {
+        width: 240px;
+        max-width: 240px;
+        min-width: 240px;
     }
 }
 
 @media (max-width: 640px) {
     .product-card {
-        flex: 0 0 100%; /* Show 1 card on mobile */
-    }
-    
-    .product-track {
-        width: 400%; /* Width for 4 cards when showing 1 */
+        width: calc(100vw - 80px);
+        max-width: 300px;
+        min-width: 250px;
     }
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // CSRF token for AJAX requests
-    const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
-    const csrfToken = csrfTokenMeta ? csrfTokenMeta.getAttribute('content') : '';
-    
-    if (!csrfToken) {
-        console.error('CSRF token not found');
-    }
-    
-    // Carousel functionality for 3-product display
+    // Carousel functionality for responsive slider
     const productTrack = document.getElementById('productTrack');
     const prevBtn = document.getElementById('prevProduct');
     const nextBtn = document.getElementById('nextProduct');
-    
+
     if (productTrack && prevBtn && nextBtn) {
         let currentPosition = 0;
         const totalCards = document.querySelectorAll('.product-card').length;
-        
+
         function getVisibleCards() {
-            const width = window.innerWidth;
-            if (width <= 640) return 1; // Mobile
-            if (width <= 1024) return 2; // Tablet  
-            return 3; // Desktop
+            const containerWidth = productTrack.parentElement.offsetWidth;
+            const cardWidth = 280; // Base card width
+            return Math.floor(containerWidth / (cardWidth + 16)); // 16px for margins
         }
-        
+
         function updateCarousel() {
             const visibleCards = getVisibleCards();
             const maxPosition = Math.max(0, totalCards - visibleCards);
-            
+
             // Ensure currentPosition is within bounds
             if (currentPosition > maxPosition) {
                 currentPosition = maxPosition;
             }
-            
-            // Calculate the percentage to move
-            const translatePercentage = currentPosition * (100 / visibleCards);
-            productTrack.style.transform = `translateX(-${translatePercentage}%)`;
-            
+
+            // Calculate the translateX value
+            const cardWidth = document.querySelector('.product-card').offsetWidth + 16; // Include margin
+            const translateX = currentPosition * cardWidth;
+            productTrack.style.transform = `translateX(-${translateX}px)`;
+
             // Update button states
             prevBtn.style.opacity = currentPosition === 0 ? '0.3' : '1';
             prevBtn.style.cursor = currentPosition === 0 ? 'not-allowed' : 'pointer';
             nextBtn.style.opacity = currentPosition >= maxPosition ? '0.3' : '1';
             nextBtn.style.cursor = currentPosition >= maxPosition ? 'not-allowed' : 'pointer';
-            
-            // Update button hover effects
+
+            // Update button pointer events
             if (currentPosition === 0) {
                 prevBtn.classList.add('pointer-events-none');
             } else {
                 prevBtn.classList.remove('pointer-events-none');
             }
-            
+
             if (currentPosition >= maxPosition) {
                 nextBtn.classList.add('pointer-events-none');
             } else {
                 nextBtn.classList.remove('pointer-events-none');
             }
-            
+
             return { visibleCards, maxPosition };
         }
 
         prevBtn.addEventListener('click', function() {
-            const { maxPosition } = updateCarousel();
             if (currentPosition > 0) {
                 currentPosition--;
                 updateCarousel();
@@ -361,25 +327,26 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Initialize carousel
-        const initialState = updateCarousel();
-        
+        updateCarousel();
+
         // Debug info
         console.log('Laptop Slider initialized:', {
             totalCards: totalCards,
-            visibleCards: initialState.visibleCards,
-            maxPosition: initialState.maxPosition,
             currentPosition: currentPosition
         });
     }
 
     // Thumbnail switching functionality
-    document.querySelectorAll('.product-card, .p-4').forEach(card => {
+    document.querySelectorAll('.product-card').forEach(card => {
         const mainImage = card.querySelector('img[alt*=""]');
         const thumbnails = card.querySelectorAll('.w-8');
-        
+
         if (mainImage && thumbnails.length > 1) {
             thumbnails.forEach((thumb, index) => {
-                thumb.addEventListener('click', function() {
+                thumb.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
                     // Remove active border from all thumbnails
                     thumbnails.forEach(t => {
                         t.classList.remove('border-blue-500');
@@ -388,101 +355,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Add active border to clicked thumbnail
                     this.classList.add('border-blue-500');
                     this.classList.remove('border-gray-300');
-                    
+
                     // Update main image
                     mainImage.src = this.src;
                 });
             });
         }
     });
-
-    // Add to cart functionality
-    document.querySelectorAll('.add-to-cart-form').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Check if CSRF token exists
-            if (!csrfToken) {
-                alert('Security token missing. Please refresh the page and try again.');
-                return;
-            }
-            
-            const productId = this.dataset.productId;
-            const quantity = this.querySelector('input[name="quantity"]').value;
-            const button = this.querySelector('button[type="submit"]');
-            const originalText = button.textContent;
-            
-            // Disable button and show loading state
-            button.disabled = true;
-            button.textContent = 'ADDING...';
-            button.classList.add('opacity-75');
-            
-            // Send AJAX request to add to cart
-            fetch('/cart/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    product_id: productId,
-                    quantity: parseInt(quantity)
-                })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Cart response:', data); // Debug log
-                if (data.success) {
-                    // Show success state
-                    button.textContent = 'ADDED!';
-                    button.classList.remove('bg-yellow-400', 'hover:bg-yellow-500');
-                    button.classList.add('bg-green-500', 'hover:bg-green-600');
-                    
-                    // Update cart count in header if exists
-                    const cartCountElements = document.querySelectorAll('[data-cart-count]');
-                    if (cartCountElements.length > 0 && data.cart_count !== undefined) {
-                        cartCountElements.forEach(element => {
-                            element.textContent = data.cart_count;
-                        });
-                    }
-                    
-                    // Reset button after 2 seconds
-                    setTimeout(() => {
-                        button.disabled = false;
-                        button.textContent = originalText;
-                        button.classList.remove('bg-green-500', 'hover:bg-green-600', 'opacity-75');
-                        button.classList.add('bg-yellow-400', 'hover:bg-yellow-500');
-                    }, 2000);
-                } else {
-                    throw new Error(data.message || 'Failed to add to cart');
-                }
-            })
-            .catch(error => {
-                console.error('Error adding to cart:', error);
-                
-                // Show error state
-                button.textContent = 'ERROR!';
-                button.classList.remove('bg-yellow-400', 'hover:bg-yellow-500');
-                button.classList.add('bg-red-500', 'hover:bg-red-600');
-                
-                // Reset button after 2 seconds
-                setTimeout(() => {
-                    button.disabled = false;
-                    button.textContent = originalText;
-                    button.classList.remove('bg-red-500', 'hover:bg-red-600', 'opacity-75');
-                    button.classList.add('bg-yellow-400', 'hover:bg-yellow-500');
-                }, 2000);
-                
-                // Show error message to user
-                alert(error.message || 'Failed to add item to cart. Please try again.');
-            });
-        });
-    });
 });
 </script>
+

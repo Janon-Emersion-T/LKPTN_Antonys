@@ -4,7 +4,7 @@
         <flux:subheading>{{ __('Manage system users and their roles') }}</flux:subheading>
         
         <x-slot:actions>
-            <flux:button variant="primary" wire:click="$set('showCreateModal', true)">
+            <flux:button variant="primary" wire:click="create">
                 {{ __('Add User') }}
             </flux:button>
         </x-slot:actions>
@@ -127,4 +127,125 @@
             </div>
         @endif
     </div>
+
+    <!-- Create User Modal -->
+    <flux:modal wire:model="showCreateModal" class="max-w-md">
+        <div class="p-6">
+            <flux:heading size="lg" class="mb-6">{{ __('Create New User') }}</flux:heading>
+
+            <form wire:submit.prevent="save">
+                <div class="space-y-4">
+                    <flux:field>
+                        <flux:label>{{ __('Name') }}</flux:label>
+                        <flux:input wire:model="name" />
+                        <flux:error name="name" />
+                    </flux:field>
+
+                    <flux:field>
+                        <flux:label>{{ __('Email') }}</flux:label>
+                        <flux:input type="email" wire:model="email" />
+                        <flux:error name="email" />
+                    </flux:field>
+
+                    <flux:field>
+                        <flux:label>{{ __('Role') }}</flux:label>
+                        <flux:select wire:model="role">
+                            <option value="customer">{{ __('Customer') }}</option>
+                            <option value="admin">{{ __('Admin') }}</option>
+                            <option value="super-admin">{{ __('Super Admin') }}</option>
+                        </flux:select>
+                        <flux:error name="role" />
+                    </flux:field>
+
+                    <flux:field>
+                        <flux:label>{{ __('Password') }}</flux:label>
+                        <flux:input type="password" wire:model="password" />
+                        <flux:error name="password" />
+                    </flux:field>
+
+                    <flux:field>
+                        <flux:label>{{ __('Confirm Password') }}</flux:label>
+                        <flux:input type="password" wire:model="password_confirmation" />
+                        <flux:error name="password_confirmation" />
+                    </flux:field>
+                </div>
+
+                <div class="flex justify-end space-x-2 mt-6">
+                    <flux:button variant="ghost" wire:click="closeModal">
+                        {{ __('Cancel') }}
+                    </flux:button>
+                    <flux:button type="submit" variant="primary">
+                        {{ __('Create User') }}
+                    </flux:button>
+                </div>
+            </form>
+        </div>
+    </flux:modal>
+
+    <!-- Edit User Modal -->
+    <flux:modal wire:model="showEditModal" class="max-w-md">
+        <div class="p-6">
+            <flux:heading size="lg" class="mb-6">{{ __('Edit User') }}</flux:heading>
+
+            <form wire:submit.prevent="save">
+                <div class="space-y-4">
+                    <flux:field>
+                        <flux:label>{{ __('Name') }}</flux:label>
+                        <flux:input wire:model="name" />
+                        <flux:error name="name" />
+                    </flux:field>
+
+                    <flux:field>
+                        <flux:label>{{ __('Email') }}</flux:label>
+                        <flux:input type="email" wire:model="email" />
+                        <flux:error name="email" />
+                    </flux:field>
+
+                    <flux:field>
+                        <flux:label>{{ __('Role') }}</flux:label>
+                        <flux:select wire:model="role">
+                            <option value="customer">{{ __('Customer') }}</option>
+                            <option value="admin">{{ __('Admin') }}</option>
+                            <option value="super-admin">{{ __('Super Admin') }}</option>
+                        </flux:select>
+                        <flux:error name="role" />
+                    </flux:field>
+
+                    <flux:field>
+                        <flux:label>{{ __('New Password (leave blank to keep current)') }}</flux:label>
+                        <flux:input type="password" wire:model="password" />
+                        <flux:error name="password" />
+                    </flux:field>
+
+                    <flux:field>
+                        <flux:label>{{ __('Confirm New Password') }}</flux:label>
+                        <flux:input type="password" wire:model="password_confirmation" />
+                        <flux:error name="password_confirmation" />
+                    </flux:field>
+                </div>
+
+                <div class="flex justify-end space-x-2 mt-6">
+                    <flux:button variant="ghost" wire:click="closeModal">
+                        {{ __('Cancel') }}
+                    </flux:button>
+                    <flux:button type="submit" variant="primary">
+                        {{ __('Update User') }}
+                    </flux:button>
+                </div>
+            </form>
+        </div>
+    </flux:modal>
+
+    <!-- Flash Messages -->
+    @if (session()->has('message'))
+        <div class="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+            {{ session('message') }}
+        </div>
+    @endif
+
+    @if (session()->has('error'))
+        <div class="fixed top-4 right-4 z-50 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg">
+            {{ session('error') }}
+        </div>
+    @endif
 </div>
